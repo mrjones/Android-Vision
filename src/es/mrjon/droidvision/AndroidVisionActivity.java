@@ -1,15 +1,35 @@
 package es.mrjon.droidvision;
 
 import android.app.Activity;
+import android.hardware.Camera;
+import android.hardware.Camera.PreviewCallback;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.FrameLayout;
 
-public class AndroidVisionActivity extends Activity
-{
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    }
+public class AndroidVisionActivity extends Activity {
+
+  private AnnotatedCameraView cameraView;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    Camera camera = Camera.open();
+
+    cameraView = new AnnotatedCameraView(camera, this);
+    ((FrameLayout) findViewById(R.id.preview)).addView(cameraView);
+
+
+    camera.setPreviewCallback(new PreviewCallback() {
+        public void onPreviewFrame(byte[] data, Camera camera) {
+          Log.i("AndroidVision", "Got " + data.length + " bytes");
+        }
+      });
+
+    camera.startPreview();
+  }
+
+  
 }
