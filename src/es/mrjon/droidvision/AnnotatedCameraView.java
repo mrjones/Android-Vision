@@ -48,23 +48,6 @@ public class AnnotatedCameraView extends SurfaceView implements SurfaceHolder.Ca
 
   @Override
   public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-
-
-    // List<Camera.Size> supportedSizes = parameters.getSupportedPreviewSizes();
-    // int bestDiff = -1;
-    // Camera.Size bestSize = null;
-    // for (Camera.Size size : supportedSizes) {
-    //   int diff = Math.abs(size.width - w) + Math.abs(size.height - h);
-    //   if (bestDiff == -1 || diff < bestDiff) {
-    //     bestSize = size;
-    //     bestDiff = diff;
-    //   }
-    // }
-    // parameters.setPreviewSize(bestSize.width, bestSize.height);
-
-    //parameters.setPreviewSize(w, h);
-                        
-    camera.startPreview();
   }
 
   @Override
