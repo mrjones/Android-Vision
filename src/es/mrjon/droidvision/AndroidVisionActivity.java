@@ -21,6 +21,10 @@ public class AndroidVisionActivity extends Activity {
     cameraView = new AnnotatedCameraView(camera, this);
     ((FrameLayout) findViewById(R.id.preview)).addView(cameraView);
 
+    Camera.Parameters parameters = camera.getParameters();
+    parameters.set("rotation", 90);
+    parameters.set("orientation", "portrait");
+    camera.setParameters(parameters);
 
     camera.setPreviewCallback(new PreviewCallback() {
         public void onPreviewFrame(byte[] data, Camera camera) {
