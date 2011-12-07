@@ -36,11 +36,22 @@ public class ProcessingQueue {
     }
   }
 
-  public void offer(byte[] data) {
+  public void offer(byte[] data, int width, int height) {
     if (shouldTake()) {
       Log.i("AndroidVision - ProcessingQueue", "taking frame " + framesTaken);
     } else {
       Log.i("AndroidVision - ProcessingQueue", "ignoring frame " + framesSkipped);
+      return;
+    }
+
+    for (int i = 0; i < width * height; i++) {
+      int x = i % width;
+      int y = i / width;
+
+      if (data[i] < 0 || data[i] > 255) {
+        Log.i("AndroidVision: sad value at " + x + ", " + y + " = " + data[i]);
+        break;
+      }
     }
 
     markComplete();

@@ -26,12 +26,13 @@ public class AndroidVisionActivity extends Activity {
     parameters.set("orientation", "portrait");
     camera.setParameters(parameters);
 
+    final Camera.Size size = parameters.getSize();
     final ProcessingQueue queue = new ProcessingQueue();
 
     camera.setPreviewCallback(new PreviewCallback() {
         public void onPreviewFrame(byte[] data, Camera camera) {
           Log.i("AndroidVision", "Got " + data.length + " bytes");
-          queue.offer(data);
+          queue.offer(data, size.width, size.height);
         }
       });
 
