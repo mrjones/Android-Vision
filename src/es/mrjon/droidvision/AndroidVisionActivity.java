@@ -26,7 +26,7 @@ public class AndroidVisionActivity extends Activity {
     parameters.set("orientation", "portrait");
     camera.setParameters(parameters);
 
-    final Camera.Size size = parameters.getSize();
+    final Camera.Size size = parameters.getPreviewSize();
     final ProcessingQueue queue = new ProcessingQueue();
 
     camera.setPreviewCallback(new PreviewCallback() {

@@ -48,8 +48,9 @@ public class ProcessingQueue {
       int x = i % width;
       int y = i / width;
 
-      if (data[i] < 0 || data[i] > 255) {
-        Log.i("AndroidVision: sad value at " + x + ", " + y + " = " + data[i]);
+      int pixel = data[i] & 0xff;
+      if (pixel < 0 || pixel > 255) {
+        Log.i("AndroidVision", "sad value at " + x + ", " + y + " = " + data[i]);
         break;
       }
     }
