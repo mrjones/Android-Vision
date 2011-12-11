@@ -53,9 +53,9 @@ public class AnnotatedCameraView extends SurfaceView implements SurfaceHolder.Ca
   @Override
   public void draw(Canvas canvas) {
     super.draw(canvas);
-    Paint p = new Paint(Color.RED);
     Log.d("AndroidVision - CameraView", "draw");
-    canvas.drawText("PREVIEW", canvas.getWidth() / 2,
-                    canvas.getHeight() / 2, p);
+    // Paint p = new Paint(Color.RED);
+    // canvas.drawText("PREVIEW", canvas.getWidth() / 2,
+    //                 canvas.getHeight() / 2, p);
   }
 }

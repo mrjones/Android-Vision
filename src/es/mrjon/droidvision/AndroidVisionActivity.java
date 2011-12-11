@@ -6,6 +6,7 @@ import android.hardware.Camera.PreviewCallback;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 public class AndroidVisionActivity extends Activity {
 
@@ -20,6 +21,11 @@ public class AndroidVisionActivity extends Activity {
 
     cameraView = new AnnotatedCameraView(camera, this);
     ((FrameLayout) findViewById(R.id.preview)).addView(cameraView);
+
+    final TextView text = new TextView(this);
+    text.setText("test");
+    ((FrameLayout) findViewById(R.id.preview)).addView(text);
+    
 
     Camera.Parameters parameters = camera.getParameters();
     parameters.set("rotation", 90);
