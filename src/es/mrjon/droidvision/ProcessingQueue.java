@@ -11,11 +11,17 @@ public class ProcessingQueue {
 
   private static final int MAX_FRAMES_IN_PARALLEL = 1;
 
+  private final Overlay overlay;
+
   private Object framelock = new Object();
 
   private int framesInProgress = 0;
   private int framesTaken = 0;
   private int framesSkipped = 0;
+
+  public ProcessingQueue(Overlay overlay) {
+    this.overlay = overlay;
+  }
 
   public boolean shouldTake() {
     synchronized(framelock) {
@@ -39,6 +45,7 @@ public class ProcessingQueue {
   public void offer(byte[] data, int width, int height) {
     if (shouldTake()) {
       Log.i("AndroidVision - ProcessingQueue", "taking frame " + framesTaken);
+      overlay.postInvalidate();
     } else {
       Log.i("AndroidVision - ProcessingQueue", "ignoring frame " + framesSkipped);
       return;
@@ -54,6 +61,7 @@ public class ProcessingQueue {
         break;
       }
     }
+
 
     markComplete();
   }
