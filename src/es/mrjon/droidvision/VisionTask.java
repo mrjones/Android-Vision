@@ -34,7 +34,9 @@ public class VisionTask extends AsyncTask {
   @Override
   public Object doInBackground(Object... unused) {
     Log.i("AndroidVision", "VISION TASK");
-    Collection<Point> lightPoints = new ArrayList<Point>(width * height / 10);
+//    Collection<Point> lightPoints = new ArrayList<Point>(width * height / 10);
+    float[] rawPoints = new float[(width * height) / 10];
+    int rawPointer = 0;
 
       // if (pixel < 0 || pixel > 255) {
       //   Log.i("AndroidVision", "sad value at " + x + ", " + y + " = " + data[i]);
@@ -65,15 +67,18 @@ public class VisionTask extends AsyncTask {
         hGrad = pixel - topPixel;
         vGrad = pixel - leftPixel;
         if (hGrad > 25 || hGrad < -25 || vGrad > 25 || vGrad < -25) {
-          lightPoints.add(new Point(height - y, x));
+//          lightPoints.add(new Point(height - y, x));
+          rawPoints[rawPointer++] = height - y;
+          rawPoints[rawPointer++] = .9f * x;
         } 
       }
     }
 
     long end = System.currentTimeMillis();
-    Log.i("AndroidVision", "Asking overlay to color " + lightPoints.size() + " points");
+//    Log.i("AndroidVision", "Asking overlay to color " + lightPoints.size() + " points");
     Log.i("AndroidVision", " * * * * * * * * * * * * * VISION TASK TOOK : " + (end-start) + "ms");
-    overlay.setPoints(lightPoints);
+//    overlay.setPoints(lightPoints);
+    overlay.setRawPoints(rawPoints);
     
     return null;
   }

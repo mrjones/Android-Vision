@@ -23,6 +23,7 @@ public class Overlay extends View {
 
   private SurfaceHolder surfaceHolder;
   private Collection<Point> points;
+  private float[] rawPoints;
 
   public Overlay(Context context) {
     super(context);
@@ -32,11 +33,16 @@ public class Overlay extends View {
     this.points = points;
   }
 
+  public void setRawPoints(float[] points) {
+    this.rawPoints = points;
+  }
+
   @Override
   protected void onDraw(Canvas canvas) {
     Log.d("AndroidVision - CameraView", "*** OVERLAY DRAWING ***");
 
-    Paint red = new Paint(Color.RED);
+    Paint red = new Paint();
+    red.setColor(Color.RED);
     // canvas.drawText("PREVIEW", canvas.getWidth() / 2,
     //                 canvas.getHeight() / 2, red);
 
@@ -51,6 +57,9 @@ public class Overlay extends View {
 //        canvas.drawPoint(p.x, p.y, red);
       }
       canvas.drawPoints(canvasPoints, red);
+    }
+    if (rawPoints != null) {
+      canvas.drawPoints(rawPoints, red);
     }
   }
 }
