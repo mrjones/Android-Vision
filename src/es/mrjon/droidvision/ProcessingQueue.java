@@ -1,11 +1,15 @@
 package es.mrjon.droidvision;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProcessingQueue {
 
@@ -45,24 +49,15 @@ public class ProcessingQueue {
   public void offer(byte[] data, int width, int height) {
     if (shouldTake()) {
       Log.i("AndroidVision - ProcessingQueue", "taking frame " + framesTaken);
-      overlay.postInvalidate();
     } else {
       Log.i("AndroidVision - ProcessingQueue", "ignoring frame " + framesSkipped);
       return;
     }
 
-    for (int i = 0; i < width * height; i++) {
-      int x = i % width;
-      int y = i / width;
+    VisionTask task = new VisionTask(data, width, height, overlay, this);
+    task.execute();
 
-      int pixel = data[i] & 0xff;
-      if (pixel < 0 || pixel > 255) {
-        Log.i("AndroidVision", "sad value at " + x + ", " + y + " = " + data[i]);
-        break;
-      }
-    }
-
-
-    markComplete();
+    // move to post execute?
+//    markComplete();
   }
 }
