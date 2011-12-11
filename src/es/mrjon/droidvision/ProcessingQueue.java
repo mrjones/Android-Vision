@@ -50,7 +50,7 @@ public class ProcessingQueue {
     if (shouldTake()) {
       Log.i("AndroidVision - ProcessingQueue", "taking frame " + framesTaken);
     } else {
-      Log.i("AndroidVision - ProcessingQueue", "ignoring frame " + framesSkipped);
+//      Log.i("AndroidVision - ProcessingQueue", "ignoring frame " + framesSkipped);
       return;
     }
 

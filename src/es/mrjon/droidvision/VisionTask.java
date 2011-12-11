@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class VisionTask extends AsyncTask {
@@ -31,26 +34,55 @@ public class VisionTask extends AsyncTask {
   @Override
   public Object doInBackground(Object... unused) {
     Log.i("AndroidVision", "VISION TASK");
-    Set<Point> lightPoints = new HashSet<Point>();
+    Collection<Point> lightPoints = new ArrayList<Point>(width * height / 10);
 
+      // if (pixel < 0 || pixel > 255) {
+      //   Log.i("AndroidVision", "sad value at " + x + ", " + y + " = " + data[i]);
+      //   break;
+      // }
+      // if (pixel > 150) {
+      //   lightPoints.add(new Point(height - y, x));
+      // }
+
+      //   double horizGrad = Math.pow(pixelAt(x, y) - pixelAt(x, y-1), 2);
+      //   double vertGrad = Math.pow(pixelAt(x, y) - pixelAt(x-1, y), 2);
+      //   double gradient = Math.sqrt(horizGrad + vertGrad);
+
+    int pixel, leftPixel, topPixel, x, y, hGrad, vGrad;;
+    double gradient;
+
+    long start = System.currentTimeMillis();
     for (int i = 0; i < width * height; i++) {
-      int x = i % width;
-      int y = i / width;
+      x = i % width;
+      y = i / width;
 
-      int pixel = data[i] & 0xff;
-      if (pixel < 0 || pixel > 255) {
-        Log.i("AndroidVision", "sad value at " + x + ", " + y + " = " + data[i]);
-        break;
-      }
-      if (pixel > 150) {
-        lightPoints.add(new Point(height - y, x));
+      if (x > 0 && y > 0) { 
+        pixel = data[i] & 0xff;
+        leftPixel = data[i - 1] & 0xff;
+        topPixel = data[i - width] & 0xff;
+
+//        gradient = Math.sqrt(Math.pow(pixel - topPixel, 2) + Math.pow(pixel - leftPixel, 2));
+        hGrad = pixel - topPixel;
+        vGrad = pixel - leftPixel;
+        if (hGrad > 25 || hGrad < -25 || vGrad > 25 || vGrad < -25) {
+          lightPoints.add(new Point(height - y, x));
+        } 
       }
     }
 
+    long end = System.currentTimeMillis();
     Log.i("AndroidVision", "Asking overlay to color " + lightPoints.size() + " points");
+    Log.i("AndroidVision", " * * * * * * * * * * * * * VISION TASK TOOK : " + (end-start) + "ms");
     overlay.setPoints(lightPoints);
     
     return null;
+  }
+
+  private int pixelAt(int x, int y) {
+    int i = y * width + x;
+    int pixel = data[i] & 0xff;
+
+    return pixel;
   }
 
   public void onPostExecute(Object unused) {

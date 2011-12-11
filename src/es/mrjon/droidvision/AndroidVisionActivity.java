@@ -49,7 +49,7 @@ public class AndroidVisionActivity extends Activity {
 
     camera.setPreviewCallback(new PreviewCallback() {
         public void onPreviewFrame(byte[] data, Camera camera) {
-          Log.i("AndroidVision", "Got " + data.length + " bytes");
+//          Log.i("AndroidVision", "Got " + data.length + " bytes");
           queue.offer(data, size.width, size.height);
         }
       });

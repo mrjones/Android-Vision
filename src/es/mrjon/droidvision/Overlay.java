@@ -16,19 +16,19 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class Overlay extends View {
 
   private SurfaceHolder surfaceHolder;
-  private Set<Point> points;
+  private Collection<Point> points;
 
   public Overlay(Context context) {
     super(context);
   }
 
-  public void setPoints(Set<Point> points) {
+  public void setPoints(Collection<Point> points) {
     this.points = points;
   }
 
@@ -43,9 +43,14 @@ public class Overlay extends View {
     // canvas.drawRect(100, 100, 200, 200, red);
     if (points != null) {
       Log.d("AndroidVision - CameraView", "*** " + points.size() + " points ***");
+      float[] canvasPoints = new float[2 * points.size()];
+      int i = 0;
       for (Point p : points) {
-        canvas.drawPoint(p.x, p.y, red);
+        canvasPoints[i++] = p.x;
+        canvasPoints[i++] = p.y;
+//        canvas.drawPoint(p.x, p.y, red);
       }
+      canvas.drawPoints(canvasPoints, red);
     }
   }
 }
