@@ -26,6 +26,9 @@ public class AndroidVisionActivity extends Activity {
     text.setText("test");
     ((FrameLayout) findViewById(R.id.preview)).addView(text);
     
+    final Overlay overlay = new Overlay(this);
+    ((FrameLayout) findViewById(R.id.preview)).addView(overlay);
+    
 
     Camera.Parameters parameters = camera.getParameters();
     parameters.set("rotation", 90);
